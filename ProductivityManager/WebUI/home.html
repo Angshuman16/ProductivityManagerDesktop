@@ -210,8 +210,13 @@
     </div>
 
     <script>
+
+
         function logout() {
-            alert("Logout logic will be connected next");
+            alert("Logout clicked");
+            window.chrome.webview.postMessage({
+                action: "logout"
+            });
         }
     </script>
 

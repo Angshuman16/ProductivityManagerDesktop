@@ -23,5 +23,25 @@ namespace ProductivityManager.Services
 
             return (int)cmd.ExecuteScalar();
         }
+
+
+        public void EndSession(int sessionId)
+        {
+            using var conn = new SqlConnection(_connectionString);
+            conn.Open();
+
+            var cmd = new SqlCommand(@"
+        UPDATE UserSessions
+        SET LogoutTime = GETDATE()
+        WHERE SessionId = @SessionId
+          AND LogoutTime IS NULL
+    ", conn);
+
+            cmd.Parameters.AddWithValue("@SessionId", sessionId);
+
+            cmd.ExecuteNonQuery();
+        }
+
+
     }
 }

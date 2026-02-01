@@ -38,11 +38,11 @@ namespace ProductivityManager.Services
                 // 3️⃣ Create session
                 int sessionId = _sessionService.CreateSession(user.UserId);
 
-                // 4️⃣ Log initial Active status
-                _statusService.LogStatus(
+              //  4️⃣ Log initial Active status
+                _statusService.SetStatus(
                     user.UserId,
                     sessionId,
-                    STATUS_ACTIVE,
+                    "Active",
                     "Login");
 
                 // 5️⃣ Success
@@ -50,8 +50,7 @@ namespace ProductivityManager.Services
             }
             catch (Exception ex)
             {
-                // Later: log this properly
-                return LoginResult.Failed("Login failed due to a system error");
+                return LoginResult.Failed(ex.Message);
             }
         }
     }
