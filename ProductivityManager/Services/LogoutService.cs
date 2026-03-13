@@ -21,7 +21,7 @@ namespace ProductivityManager.Services
         public void Logout(int userId, int sessionId)
         {
             // 1️⃣ Close current status
-            _statusService.SetStatus(
+            _statusService.ChangeStatus(
                 userId,
                 sessionId,
                 "Inactive",

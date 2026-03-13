@@ -39,7 +39,7 @@ namespace ProductivityManager.Services
                 int sessionId = _sessionService.CreateSession(user.UserId);
 
               //  4️⃣ Log initial Active status
-                _statusService.SetStatus(
+                _statusService.ChangeStatus(
                     user.UserId,
                     sessionId,
                     "Active",

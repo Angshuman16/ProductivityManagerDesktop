@@ -167,6 +167,32 @@
             });
         }
 
+        // Code Started for Sending Activity of User 2secs.
+
+
+        let lastActivitySent = 0;
+        const activityCooldown = 2000; // 2 seconds
+
+        function sendActivity() {
+            const now = Date.now();
+
+            if (now - lastActivitySent < activityCooldown) {
+                return;
+            }
+
+            lastActivitySent = now;
+
+            chrome.webview.postMessage({
+                action: "activity"
+            });
+        }
+
+        document.addEventListener("mousemove", sendActivity);
+        document.addEventListener("keydown", sendActivity);
+
+
+        //Code Complete for Sending Activty of User...
+
         window.chrome.webview.addEventListener("message", event => {
             const msg = event.data;
             const messageBox = document.getElementById("message");
