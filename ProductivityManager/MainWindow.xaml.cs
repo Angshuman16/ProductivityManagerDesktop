@@ -142,43 +142,74 @@ namespace ProductivityManager
         }
 
 
+        /* private void HandleLogout()
+         {
+             try
+             {
+
+                 MessageBox.Show(
+     $"UserId: {_sessionContext.UserId}, SessionId: {_sessionContext.SessionId}");
+
+                 // Close current open status first
+                 _statusService.CloseStatusOnly(
+                     _sessionContext.UserId,
+                     _sessionContext.SessionId
+                 );
+                 _logoutService.Logout(_sessionContext.UserId,
+     _sessionContext.SessionId);
+
+
+                 _idleTimer?.Stop();
+                 _idleTimer = null;
+
+                 // Clear in-memory context
+                 _sessionContext.Clear();
+
+
+                 // Navigate back to login
+                 WebView.CoreWebView2.Navigate(
+                     Path.Combine(
+                         AppDomain.CurrentDomain.BaseDirectory,
+                         "WebUI",
+                         "login.html"));
+             }
+             catch (Exception ex)
+             {
+                 SendMessageToWeb("error", "Logout failed");
+             }
+         }
+        */
+
+        // Not  MY VERSION
         private void HandleLogout()
         {
             try
             {
-
-                MessageBox.Show(
-    $"UserId: {_sessionContext.UserId}, SessionId: {_sessionContext.SessionId}");
-
-                // Close current open status first
-                _statusService.CloseStatusOnly(
+                _statusService.ChangeStatus(
                     _sessionContext.UserId,
-                    _sessionContext.SessionId
-                );
-                _logoutService.Logout(_sessionContext.UserId,
-    _sessionContext.SessionId);
+                    _sessionContext.SessionId,
+                    "Inactive",
+                    "Logout");
 
+                _logoutService.Logout(
+                    _sessionContext.UserId,
+                    _sessionContext.SessionId);
 
                 _idleTimer?.Stop();
-                _idleTimer = null;
-
-                // Clear in-memory context
                 _sessionContext.Clear();
 
+                string loginPath = Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "WebUI",
+                    "login.html");
 
-                // Navigate back to login
-                WebView.CoreWebView2.Navigate(
-                    Path.Combine(
-                        AppDomain.CurrentDomain.BaseDirectory,
-                        "WebUI",
-                        "login.html"));
+                WebView.CoreWebView2.Navigate(new Uri(loginPath).AbsoluteUri);
             }
             catch (Exception ex)
             {
-                SendMessageToWeb("error", "Logout failed");
+                MessageBox.Show(ex.Message);
             }
         }
-
 
         private void HandleSignup(string username, string password)
         {
